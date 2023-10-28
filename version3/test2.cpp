@@ -1,3 +1,4 @@
+#define EXTRA_ASSERTS 1
 #include <green_crdt/v3/text_document.hpp>
 
 #include <numeric>
