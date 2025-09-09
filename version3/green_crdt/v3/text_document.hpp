@@ -3,6 +3,7 @@
 #include "./list.hpp"
 
 #include <variant>
+#include <string>
 
 //#include <iostream> // debug
 
@@ -51,7 +52,7 @@ struct TextDocument {
 	}
 
 	bool apply(const Op& op) {
-		if(std::holds_alternative<OpAdd>(op)) {
+		if (std::holds_alternative<OpAdd>(op)) {
 			const auto& add_op = std::get<OpAdd>(op);
 			//std::cout << "a:" << add_op.id.id << " s:" << add_op.id.seq << " v:" << add_op.value << "\n";
 			return state.add(add_op.id, add_op.value, add_op.parent_left, add_op.parent_right);
@@ -97,7 +98,7 @@ struct TextDocument {
 		return ops;
 	}
 
-	// adds in tast with specified parents
+	// adds in text with specified parents
 	// returns generated ops
 	std::vector<Op> addText(
 		std::optional<typename ListType::ListID> parent_left,

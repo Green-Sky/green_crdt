@@ -5,11 +5,8 @@ project(green_crdt)
 
 if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
 	set(GREEN_CRDT_STANDALONE ON)
-	# why the f do i need this >:(
-	set(NOT_GREEN_CRDT_STANDALONE OFF)
 else()
 	set(GREEN_CRDT_STANDALONE OFF)
-	set(NOT_GREEN_CRDT_STANDALONE ON)
 endif()
 message("II GREEN_CRDT_STANDALONE " ${GREEN_CRDT_STANDALONE})
 
@@ -57,6 +54,10 @@ if (GREEN_CRDT_STANDALONE)
 			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 		endif()
 	endif()
+
+	# TODO: also make option
+	# note: hardcoded on in tests
+	add_compile_definitions(EXTRA_ASSERTS=1)
 
 endif()
 
