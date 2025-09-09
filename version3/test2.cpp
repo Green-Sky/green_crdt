@@ -156,9 +156,11 @@ Op genDel(Rng& rng, Doc& doc) {
 
 	{
 		auto size_pre = doc.state.getDocSize();
+		const auto num_del_pre = doc.state.getDelNum(op.id.id);
 		bool r = doc.state.del(op.id);
 		assert(r);
 		assert(size_pre-1 == doc.state.getDocSize());
+		assert(num_del_pre+1 == doc.state.getDelNum(op.id.id));
 		assert(doc.state.verify());
 	}
 

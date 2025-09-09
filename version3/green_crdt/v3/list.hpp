@@ -72,6 +72,7 @@ struct List {
 
 	// TODO: actor index instead of map
 	std::unordered_map<size_t, uint64_t> _last_seen_seq;
+	std::unordered_map<size_t, uint64_t> _del_num;
 
 	// caching only, contains the last index an actor inserted at
 	std::unordered_map<size_t, size_t> _last_inserted_idx;
@@ -354,6 +355,7 @@ struct List {
 			if (it.value.has_value()) {
 				it.value.reset();
 
+				_del_num[actor_idx_opt.value()] += 1;
 				_doc_size--;
 				extra_assert(verify());
 				return true;
@@ -402,6 +404,22 @@ struct List {
 		}
 
 		return array;
+	}
+
+	// returns the number of deleted entries for that actor
+	// (not the number the actor deleted!)
+	[[nodiscard]] size_t getDelNum(const ActorType& actor) const {
+		const auto actor_idx_opt = findActor(actor);
+		if (actor_idx_opt.has_value()) {
+			const auto it = _del_num.find(actor_idx_opt.value());
+			if (it != _del_num.cend()) {
+				return it->second;
+			} else {
+				return 0;
+			}
+		} else {
+			return 0;
+		}
 	}
 
 	// TODO: only in debug?
